@@ -11,21 +11,20 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 
 export default function Games({ games, setGames }) {
-	const url = 'https://www.balldontlie.io/api/v1/games';
+	const url = 'https://www.espn.com/nba/schedule';
 	
-	let today = new Date();
-	const offset = today.getTimezoneOffset();
-	today += offset;
-	
-	today = new Date(today);
-	const year = today.getFullYear();
-	const month = today.getMonth() + 1;
-	const day = today.getDate();
-	const date = year + '-' + month + '-' + day;
-	let query = url + '/?dates[]=' + date;
+	let query = url;
 	console.log(query);
 	if (games.length === 0) {
+		fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+                    .then(response => {
+                      if (response.ok) return response.json()
+                      throw new Error('Network response was not ok.')
+                    })
+                    .then(data => console.log(data.contents));
+                  /*
 		axios.get(query).then(res => {
+			console.log(res);
 			let g = res.data.data.map(d => {
 				const homeTeam = d.home_team.full_name;
 				const awayTeam = d.visitor_team.full_name;
@@ -35,7 +34,7 @@ export default function Games({ games, setGames }) {
 				};
 			});
 			setGames(g);
-		});
+		});*/
 
 		return (
 			<p>Loading today's games...</p>
