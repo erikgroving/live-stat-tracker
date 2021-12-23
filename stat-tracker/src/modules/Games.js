@@ -8,7 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 //import parse from 'node-html-parser';
-import axios from 'axios';
 
 export default function Games({ games, setGames }) {
 	const url = 'https://www.espn.com/nba/schedule';
