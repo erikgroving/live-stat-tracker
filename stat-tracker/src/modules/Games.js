@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+//import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import parse from 'node-html-parser';
+//import parse from 'node-html-parser';
 import axios from 'axios';
 
 export default function Games({ games, setGames }) {
@@ -26,14 +26,13 @@ export default function Games({ games, setGames }) {
 	console.log(query);
 	if (games.length === 0) {
 		axios.get(query).then(res => {
-			let g = [];
-			res.data.data.map(d => {
+			let g = res.data.data.map(d => {
 				const homeTeam = d.home_team.full_name;
 				const awayTeam = d.visitor_team.full_name;
-				g.push({
+				return {
 					homeTeam: homeTeam,
 					awayTeam: awayTeam
-				});
+				};
 			});
 			setGames(g);
 		});
