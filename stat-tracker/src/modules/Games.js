@@ -7,41 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-//import parse from 'node-html-parser';
 
-export default function Games({ games, setGames }) {
-	const url = 'https://www.espn.com/nba/schedule';
-	
-	let query = url;
-	console.log(query);
+export default function Games({ games }) {
 	if (games.length === 0) {
-		fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
-                    .then(response => {
-                      if (response.ok) return response.json()
-                      throw new Error('Network response was not ok.')
-                    })
-                    .then(data => console.log(data.contents));
-                  /*
-		axios.get(query).then(res => {
-			console.log(res);
-			let g = res.data.data.map(d => {
-				const homeTeam = d.home_team.full_name;
-				const awayTeam = d.visitor_team.full_name;
-				return {
-					homeTeam: homeTeam,
-					awayTeam: awayTeam
-				};
-			});
-			setGames(g);
-		});*/
-
 		return (
 			<p>Loading today's games...</p>
 		)
 	}
-
-
-
 
     return (
         <TableContainer component={Paper}>
@@ -56,8 +28,8 @@ export default function Games({ games, setGames }) {
 				<TableBody>
 					{games.map(game => 
 						<TableRow>
-							<TableCell>{game.homeTeam}</TableCell>
-							<TableCell>{game.awayTeam}</TableCell>
+							<TableCell>{game.home.triCode}</TableCell>
+							<TableCell>{game.away.triCode}</TableCell>
 						</TableRow>
 					)}
 				</TableBody>
