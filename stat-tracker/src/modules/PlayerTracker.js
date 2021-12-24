@@ -48,6 +48,7 @@ export default function PlayerTracker( {playerDict} ) {
 					onChange={ (event, inputVal) => {
 						console.log(inputVal);
 					}}
+					isOptionEqualToValue={(a, b) => a.label === b.label}
 				/>
 			</Grid>
 			<Grid item>

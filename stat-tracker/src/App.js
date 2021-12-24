@@ -43,15 +43,13 @@ function fetchGames(setGames) {
     
 }
 
-var total = 0;
-function fetchPlayerStats(games, setPlayerStats) {
+async function fetchPlayerStats(games, setPlayerStats) {
     let date = createNbaDateString();
     var playerStats = []; 
-    total = 0;
     for (let i = 0; i < games.length; i += 1) {
         let g = games[i];
         const url = `https://data.nba.net/prod/v1/${date}/${g.gameId}_boxscore.json`;
-        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+        await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -62,19 +60,15 @@ function fetchPlayerStats(games, setPlayerStats) {
             .then(data => {
                 let parsed = JSON.parse(data.contents);
                 if (parsed.stats === undefined) {
-                    total += 1;
                     return;
                 }
 
                 let players = parsed.stats.activePlayers;
                 playerStats.push(players);
-                total += 1;
 
-                if (total === games.length) {
-                    setPlayerStats(playerStats);
-                }
             })
     }
+    setPlayerStats(playerStats);
 }
 
 function isEmptyObject(obj) {
