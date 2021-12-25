@@ -37,20 +37,6 @@ export default function PlayerTracker( {playerDict} ) {
 		});
 	}
 
-	const duration = 300;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-}
-
-const transitionStyles = {
-  entering: { opacity: 1 },
-  entered:  { opacity: 1 },
-  exiting:  { opacity: 0 },
-  exited:  { opacity: 0 },
-};
-
 	players.sort((a, b) => a.label < b.label ? -1 : 1);
 	console.log(trackedPlayers);
 	return (

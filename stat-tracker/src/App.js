@@ -3,7 +3,7 @@ import PlayerTracker from "./modules/PlayerTracker";
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function createNbaDateString() {
     let today = new Date();
@@ -48,9 +48,12 @@ function fetchGames(setGames) {
     
 }
 
-async function fetchPlayerStats(games, setPlayerStats) {
+async function fetchPlayerStats(games, playerStatsI, setPlayerStats) {
+    if (games.length === 0 && playerStatsI.length !== 0) {
+        return;
+    }
     let date = createNbaDateString();
-    var playerStats = []; 
+    let playerStats = []; 
     for (let i = 0; i < games.length; i += 1) {
         let g = games[i];
         const url = `https://data.nba.net/prod/v1/${date}/${g.gameId}_boxscore.json`;
@@ -94,9 +97,10 @@ function App() {
     }
 
     // Get players in each game and their stats
-    if (games.length !== 0 && playerStats.length === 0) {
-        setInterval(() => fetchPlayerStats(games, setPlayerStats), 2000);
-    }
+    useEffect(() => {
+        const interval = setInterval(() => fetchPlayerStats(games, playerStats, setPlayerStats), 2000);
+        return () => clearInterval(interval);
+    }, [games, playerStats]);
     
     let pDict = {};
     for (let pSet of playerStats) {
