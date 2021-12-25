@@ -48,8 +48,8 @@ function fetchGames(setGames) {
     
 }
 
-async function fetchPlayerStats(games, playerStatsI, setPlayerStats) {
-    if (games.length === 0 && playerStatsI.length !== 0) {
+async function fetchPlayerStats(games, setPlayerStats) {
+    if (games.length === 0) {
         return;
     }
     let date = createNbaDateString();
@@ -100,7 +100,7 @@ function App() {
     useEffect(() => {
         const interval = setInterval(() => fetchPlayerStats(games, playerStats, setPlayerStats), 2000);
         return () => clearInterval(interval);
-    }, [games, playerStats]);
+    }, [games]);
     
     let pDict = {};
     for (let pSet of playerStats) {
