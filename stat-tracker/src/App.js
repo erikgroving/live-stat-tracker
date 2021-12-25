@@ -59,21 +59,24 @@ async function fetchPlayerStats(games, setPlayerStats) {
         const url = `https://data.nba.net/prod/v1/${date}/${g.gameId}_boxscore.json`;
         console.log(url);
         
-        await axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+        //await axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+        await axios.get(url)
             .then(response => {
                 if (response.status === 200) {
-                    return response.data.contents;
+                    console.log(response.data);
+                    return response.data;
                 }
                 
                 throw new Error('Network response was not ok.')
             })
             .then(data => {
-                let parsed = JSON.parse(data);
+                console.log(data);
+                let parsed = data;
                 if (parsed.stats === undefined) {
                     return;
                 }
-
                 let players = parsed.stats.activePlayers;
+                console.log(players);
                 playerStats.push(players);
 
             })
@@ -98,9 +101,9 @@ function App() {
 
     // Get players in each game and their stats
     useEffect(() => {
-        const interval = setInterval(() => fetchPlayerStats(games, playerStats, setPlayerStats), 2000);
+        const interval = setInterval(() => fetchPlayerStats(games, setPlayerStats), 2000);
         return () => clearInterval(interval);
-    }, [games]);
+    }, [games, setPlayerStats]);
     
     let pDict = {};
     for (let pSet of playerStats) {

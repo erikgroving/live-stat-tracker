@@ -52,9 +52,11 @@ export default function PlayerTracker( {playerDict} ) {
 					sx={{ width: 300 }}
 					renderInput={(params) => <TextField {...params} label="Search for Player" variant="standard"/>}
 					onChange={ (_, inputVal) => {
-						console.log(inputVal);
-						console.log(inputVal.stats);
-						setTrackedPlayers([...trackedPlayers, inputVal]);
+						if (inputVal) {
+							console.log(inputVal);
+							console.log(inputVal.stats);
+							setTrackedPlayers([...trackedPlayers, inputVal]);
+						}
 					}}
 					isOptionEqualToValue={(a, b) => a.label === b.label}
 				/>
