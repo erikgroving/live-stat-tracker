@@ -105,7 +105,7 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
                 for (let i = playsSeen[gameKey]; i < data.sports_content.game.play.length; i++) {
                     let play = data.sports_content.game.play[i]
                     if (play.period && play.description && play.clock) {
-                        let key = play.period + play.clock + play.team_abr + play.event;
+                        let key = play.period + play.clock + play.team_abr + play.event + play.description;
                         if (playByPlayDict.hasOwnProperty(key)) {
                             continue;
                         }
