@@ -87,7 +87,7 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
             continue;
         }
         
-        const url = `http://data.nba.net/data/10s/json/cms/noseason/game/${date}/${g.gameId}/pbp_all.json`;
+        const url = `https://data.nba.net/data/10s/json/cms/noseason/game/${date}/${g.gameId}/pbp_all.json`;
         
         await axios.get(url)
             .then(response => {
