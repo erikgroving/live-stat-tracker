@@ -18,7 +18,7 @@ function createNbaDateString() {
 
 function fetchGames(setGames) {
     let date = createNbaDateString();
-	const url = `https://data.nba.net/prod/v1/${date}/scoreboard.json`;
+	const url = `https://data.nba.net/prod/v1/${date}/scoreboard.json?cb=${Date.now()}`;
     axios.get(url)
         .then(response => {
             if (response.status === 200) {
@@ -87,7 +87,7 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
             continue;
         }
         
-        const url = `https://data.nba.net/data/10s/json/cms/noseason/game/${date}/${g.gameId}/pbp_all.json`;
+        const url = `https://data.nba.net/data/10s/json/cms/noseason/game/${date}/${g.gameId}/pbp_all.json?cb=${Date.now()}`;
         
         await axios.get(url)
             .then(response => {
