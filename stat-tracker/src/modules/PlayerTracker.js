@@ -26,7 +26,7 @@ export default function PlayerTracker( {games, playerDict} ) {
 	if (isEmptyObject(playerDict)) {
 		if (games.length !== 0) {
 			return (
-				<Grid container justifyContent="center">Games have not started yet. </Grid>
+				<Grid container justifyContent="center">Loading... (Or games have not started yet.) </Grid>
 			)
 		}
 		return (
@@ -70,7 +70,7 @@ export default function PlayerTracker( {games, playerDict} ) {
 			<Grid container justifyContent="center" item md={12} alignItems="center">
 
 				{
-					<TableContainer component={Paper}>
+					<TableContainer sx={{maxWidth: 950}} component={Paper}>
 						<Table >
 							<TableHead>
 								<TableRow>
@@ -94,16 +94,16 @@ export default function PlayerTracker( {games, playerDict} ) {
 									return(
 										<TableRow key={p}>
 											<TableCell className="fade-in">{p}</TableCell>
-											<TableCell key={player.min} className="fade-in">{player.min}</TableCell>
-											<TableCell key={player.points} className="fade-in">{player.points}</TableCell>
-											<TableCell key={player.fga} className="fade-in">{player.fgm + '/' + player.fga}</TableCell>
-											<TableCell key={player.tpa} className="fade-in">{player.tpm + '/' + player.tpa}</TableCell>
-											<TableCell key={player.fta} className="fade-in">{player.ftm + '/' + player.fta}</TableCell>
-											<TableCell key={player.assists} className="fade-in">{player.assists}</TableCell>
-											<TableCell key={player.totReb} className="fade-in">{player.totReb}</TableCell>
-											<TableCell key={player.blocks} className="fade-in">{player.blocks}</TableCell>
-											<TableCell key={player.steals} className="fade-in">{player.steals}</TableCell>
-											<TableCell key={player.turnovers} className="fade-in">{player.turnovers}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'min' + player.min} className="fade-in">{player.min}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'points' + player.points} className="fade-in">{player.points}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'fga' +player.fga} className="fade-in">{player.fgm + '/' + player.fga}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'tpa' + player.tpa} className="fade-in">{player.tpm + '/' + player.tpa}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'fta' + player.fta} className="fade-in">{player.ftm + '/' + player.fta}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'assists' + player.assists} className="fade-in">{player.assists}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'reb' + player.totReb} className="fade-in">{player.totReb}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'block' + player.blocks} className="fade-in">{player.blocks}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'steal' + player.steals} className="fade-in">{player.steals}</TableCell>
+											<TableCell sx={{fontWeight: 'bold'}} key={p + 'to' + player.turnovers} className="fade-in">{player.turnovers}</TableCell>
 										</TableRow>
 									)
 									}

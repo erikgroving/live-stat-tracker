@@ -24,11 +24,31 @@ export default function Games({ games }) {
 						<Card sx={{minWidth: 250}}>
 							<CardContent>
 								<Typography>
-									{game.hTeam.triCode + ' (' + game.hTeam.win + '-' + game.hTeam.loss + ') vs. ' + game.vTeam.triCode + ' (' + game.vTeam.win + '-' + game.vTeam.loss + ')'}
+									{game.hTeam.triCode + ' (' + game.hTeam.win + '-' + game.hTeam.loss + ') at ' + game.vTeam.triCode + ' (' + game.vTeam.win + '-' + game.vTeam.loss + ')'}
 								</Typography>
+								
+								{game.hTeam.seriesWin && game.vTeam.seriesWin ?
 								<Typography>
-									{game.hTeam.triCode + ' (' + game.hTeam.seriesWin + '-' + game.vTeam.seriesWin + ') ' + game.vTeam.triCode }
+									{game.hTeam.triCode + ' is ' + game.hTeam.seriesWin + '-' + game.vTeam.seriesWin + ' against ' + game.vTeam.triCode }
 								</Typography>
+								: ''
+								}
+							
+								
+								<Typography key={game.hTeam.triCode + game.vTeam.triCode + game.period.current + game.clock} sx={{fontSize: '20px'}} className="fade-in">
+									{game.statusNum === 2  ?
+									game.period.isHalftime === true ? 'Halftime' : 
+										'Q' + game.period.current + ' ' + game.clock : ''}
+								</Typography>
+									
+								
+								{game.hTeam.score && game.vTeam.score ?	
+									<Typography key={game.hTeam.triCode + game.vTeam.triCode + game.hTeam.score + game.vTeam.score} className="fade-in" sx={{fontSize: '28px'}}>
+										{game.hTeam.score + ' - ' + game.vTeam.score}
+									</Typography>
+									: ''
+								}
+								
 						
 							</CardContent>
 						</Card>
