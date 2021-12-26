@@ -12,7 +12,7 @@ export default function Games({ games }) {
 	}
     return (
 		<Grid container sx={{paddingLeft: '50px'}}>
-			<Grid container justifyContent="center" item md={12}>
+			<Grid item md={12}>
 				<Typography>
 				Today's Games
 				</Typography>
@@ -20,8 +20,8 @@ export default function Games({ games }) {
 			{
 				games.map(game =>  {
 					return (
-					<Grid justifyContent="center" key={game.hTeam.triCode} container spacing={2} style={{paddingTop: '25px'}}>
-						<Card sx={{minWidth: 250}}>
+					<Grid key={game.hTeam.triCode} style={{paddingTop: '25px'}}>
+						<Card sx={{minWidth: 250, maxHeight: 150}}>
 							<CardContent>
 								<Typography>
 									{game.hTeam.triCode + ' (' + game.hTeam.win + '-' + game.hTeam.loss + ') at ' + game.vTeam.triCode + ' (' + game.vTeam.win + '-' + game.vTeam.loss + ')'}

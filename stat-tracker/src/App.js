@@ -173,7 +173,7 @@ function App() {
         
         <ThemeProvider theme={theme}>
             <Grid container spacing={2} sx={{marginTop: '25px'}}>
-                <Grid container item md={3}>
+                <Grid item md={3}>
                     <Games games={games}/>
                 </Grid>
                 <Grid item md={9}>
