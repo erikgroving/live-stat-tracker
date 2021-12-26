@@ -38,7 +38,6 @@ export default function PlayerTracker( {playerDict} ) {
 	}
 
 	players.sort((a, b) => a.label < b.label ? -1 : 1);
-	console.log(trackedPlayers);
 	return (
 		<>
 		<Grid container item justifyContent="center">
@@ -52,31 +51,30 @@ export default function PlayerTracker( {playerDict} ) {
 					sx={{ width: 300 }}
 					renderInput={(params) => <TextField {...params} label="Search for Player" variant="standard"/>}
 					onChange={ (_, inputVal) => {
+						console.log(inputVal);
 						if (inputVal) {
-							console.log(inputVal);
-							console.log(inputVal.stats);
-							setTrackedPlayers([...trackedPlayers, inputVal]);
+							setTrackedPlayers([...trackedPlayers, inputVal.label]);
 						}
 					}}
 					isOptionEqualToValue={(a, b) => a.label === b.label}
 				/>
 			</Grid>
 			
-			<Grid container justifyContent="center" item md={12}>
+			<Grid container justifyContent="center" item md={12} alignItems="center">
 
 				{
 					<TableContainer component={Paper}>
-						<Table sx={{ minWidth: 650 }} aria-label="simple table">
+						<Table >
 							<TableHead>
 								<TableRow>
 									<TableCell>Name</TableCell>
+									<TableCell>Min.</TableCell>
 									<TableCell>Points</TableCell>
+									<TableCell>FG</TableCell>
+									<TableCell>3P</TableCell>
+									<TableCell>FT</TableCell>
 									<TableCell>Assists</TableCell>
 									<TableCell>Rebounds</TableCell>
-									<TableCell>FG/M</TableCell>
-									<TableCell>FG/A</TableCell>
-									<TableCell>3P/M</TableCell>
-									<TableCell>3P/A</TableCell>
 									<TableCell>Blocks</TableCell>
 									<TableCell>Steals</TableCell>
 									<TableCell>Turnovers</TableCell>
@@ -84,20 +82,24 @@ export default function PlayerTracker( {playerDict} ) {
 							</TableHead>
 							
 							<TableBody>
-								{trackedPlayers.map(player =>
-									<TableRow key={player.label}>
-										<TableCell>{player.label}</TableCell>
-										<TableCell>{player.stats.points}</TableCell>
-										<TableCell>{player.stats.assists}</TableCell>
-										<TableCell>{player.stats.totReb}</TableCell>
-										<TableCell>{player.stats.fgm}</TableCell>
-										<TableCell>{player.stats.fga}</TableCell>
-										<TableCell>{player.stats.tpm}</TableCell>
-										<TableCell>{player.stats.tpa}</TableCell>
-										<TableCell>{player.stats.blocks}</TableCell>
-										<TableCell>{player.stats.steals}</TableCell>
-										<TableCell>{player.stats.turnovers}</TableCell>
-									</TableRow>
+								{trackedPlayers.map(p =>
+									{let player = playerDict[p];
+									return(
+										<TableRow key={p}>
+											<TableCell className="fade-in">{p}</TableCell>
+											<TableCell key={player.min} className="fade-in">{player.min}</TableCell>
+											<TableCell key={player.points} className="fade-in">{player.points}</TableCell>
+											<TableCell key={player.fga} className="fade-in">{player.fgm + '/' + player.fga}</TableCell>
+											<TableCell key={player.tpa} className="fade-in">{player.tpm + '/' + player.tpa}</TableCell>
+											<TableCell key={player.fta} className="fade-in">{player.ftm + '/' + player.fta}</TableCell>
+											<TableCell key={player.assists} className="fade-in">{player.assists}</TableCell>
+											<TableCell key={player.totReb} className="fade-in">{player.totReb}</TableCell>
+											<TableCell key={player.blocks} className="fade-in">{player.blocks}</TableCell>
+											<TableCell key={player.steals} className="fade-in">{player.steals}</TableCell>
+											<TableCell key={player.turnovers} className="fade-in">{player.turnovers}</TableCell>
+										</TableRow>
+									)
+									}
 								)}
 							</TableBody>
 						</Table>

@@ -1,12 +1,8 @@
 import React from 'react';
-//import { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 export default function Games({ games }) {
 	if (games.length === 0) {
@@ -14,26 +10,33 @@ export default function Games({ games }) {
 			<p>Loading today's games...</p>
 		)
 	}
-
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-						<TableCell>Home Team</TableCell>
-						<TableCell>Away Team</TableCell>
-					</TableRow>
-                </TableHead>
-				
-				<TableBody>
-					{games.map(game => 
-						<TableRow>
-							<TableCell>{game.home.triCode}</TableCell>
-							<TableCell>{game.away.triCode}</TableCell>
-						</TableRow>
-					)}
-				</TableBody>
-			</Table>
-        </TableContainer>
+		<Grid container justifyContent="center" sx={{paddingLeft: '50px'}}>
+			<Grid item md={12}>
+				<Typography>
+				Today's Games
+				</Typography>
+			</Grid>
+			{
+				games.map(game =>  {
+					return (
+					<Grid container spacing={2} style={{paddingTop: '25px'}}>
+						<Card sx={{minWidth: 250}}>
+							<CardContent>
+								<Typography>
+									{game.hTeam.triCode + ' (' + game.hTeam.win + '-' + game.hTeam.loss + ') vs. ' + game.vTeam.triCode + ' (' + game.vTeam.win + '-' + game.vTeam.loss + ')'}
+								</Typography>
+								<Typography>
+									{game.hTeam.triCode + ' (' + game.hTeam.seriesWin + '-' + game.vTeam.seriesWin + ') ' + game.vTeam.triCode }
+								</Typography>
+						
+							</CardContent>
+						</Card>
+					</Grid>
+					)
+				})
+			}
+
+		</Grid>
     );
 }
