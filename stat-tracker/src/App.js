@@ -122,7 +122,7 @@ function App() {
                     <Games games={games}/>
                 </Grid>
                 <Grid item md={9}>
-                    <PlayerTracker playerDict={playerDict}/>
+                    <PlayerTracker games={games} playerDict={playerDict}/>
                 </Grid>
             </Grid>
         </ThemeProvider>

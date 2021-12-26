@@ -16,14 +16,21 @@ function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
 
-export default function PlayerTracker( {playerDict} ) {
+export default function PlayerTracker( {games, playerDict} ) {
 
 
     const [trackedPlayers, setTrackedPlayers] = useState([]);
 
+
+
 	if (isEmptyObject(playerDict)) {
+		if (games.length !== 0) {
+			return (
+				<Grid container justifyContent="center">Games have not started yet. </Grid>
+			)
+		}
 		return (
-			<Grid container justifyContent="center">Loading player stats... (Ensure games have started)</Grid>
+			<Grid container justifyContent="center">Loading player stats. </Grid>
 		)
 	}
 
