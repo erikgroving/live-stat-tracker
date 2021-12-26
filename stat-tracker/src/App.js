@@ -8,8 +8,6 @@ import { useState, useEffect } from 'react';
 
 function createNbaDateString() {
     let today = new Date();
-	let offset = today.getTimezoneOffset();
-	today = new Date(today + offset);
 	let year = today.getFullYear();
 	let month = today.getMonth() + 1;
 	let day = today.getDate();

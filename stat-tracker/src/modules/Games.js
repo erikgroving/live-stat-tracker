@@ -20,7 +20,7 @@ export default function Games({ games }) {
 			{
 				games.map(game =>  {
 					return (
-					<Grid container spacing={2} style={{paddingTop: '25px'}}>
+					<Grid key={game.hTeam.triCode} container spacing={2} style={{paddingTop: '25px'}}>
 						<Card sx={{minWidth: 250}}>
 							<CardContent>
 								<Typography>
