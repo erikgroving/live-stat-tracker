@@ -115,7 +115,11 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
 
                         if (splits.length !== 1) {
                             play.team = splits[0].slice(1);
-                            play.description = splits[1];                          
+                            play.description = splits[1]; 
+                        }
+                        else {
+                            playByPlayDict[key] = play;
+                            continue;
                         }
                         
                         playByPlay.push(play);
