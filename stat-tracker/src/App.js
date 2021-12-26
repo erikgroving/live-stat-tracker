@@ -83,7 +83,7 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
     let date = createNbaDateString();
 
     for (let g of games) {
-        if (g.statusNum != 2) {
+        if (g.statusNum !== 2) {
             continue;
         }
         
