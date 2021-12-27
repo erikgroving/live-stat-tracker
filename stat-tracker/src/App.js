@@ -171,13 +171,13 @@ function App() {
 
     return (
         <>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600&display=swap" rel="stylesheet"></link>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600&display=swap" rel="stylesheet"></link>
         
         <ThemeProvider theme={theme}>
             <Grid container spacing={2} sx={{marginTop: '25px'}}>
-                <Grid item md={3}>
+                <Grid sx={{paddingBottom: '50px'}} item md={3}>
                     <Games games={games}/>
                 </Grid>
                 <Grid item md={9}>

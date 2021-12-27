@@ -26,7 +26,7 @@ export default function PlayByPlay( {playByPlay} ) {
 						No plays yet...
 					</Typography>
 					:
-					<TableContainer sx={{maxWidth: 950}} component={Paper}>
+					<TableContainer sx={{maxWidth: 950, maxHeight:600}} component={Paper}>
 						<Table >
 							<TableHead>
 								<TableRow>
@@ -38,9 +38,9 @@ export default function PlayByPlay( {playByPlay} ) {
 							</TableHead>
 							
 							<TableBody>
-								{playByPlay.slice(0).reverse().map(play => {
+								{playByPlay.slice(playByPlay.length - 100).reverse().map(play => {
 									return(
-									<TableRow key={play.description + play.period + play.clock}>
+									<TableRow key={play.event + play.description + play.period + play.clock}>
 										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.period}</TableCell>
 										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.clock}</TableCell>
 										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.team}</TableCell>
