@@ -8,9 +8,60 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
-export default function PlayByPlay( {playByPlay} ) {
+import { useState } from 'react';
+
+const isScoringPlay = (playDesc) => {
+	return playDesc.includes('PTS');
+};
+
+const isTrackedPlayer = (playDesc) => {
+	let lastNames = [];
+
+	for (let lastName of lastNames) {
+		if (playDesc.includes(lastName)) {
+			return true;
+		}
+	}
+
+	return false;
+};
+
+const isTrackedPlayerTeam = (play) => {
+	return true;
+};
+
+function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly) {
+
+	if (scoringPlaysOnly && !isScoringPlay(play.description)) {
+		return false;
+	}
+
+	if (trackedPlayersOnly && !isTrackedPlayer(play.description)) {
+		return false;
+	}
+
+	if (trackedTeamsOnly && !isTrackedPlayerTeam(play)) {
+		return false;
+	}
+
+	return true;
+}
+
+const handleChange = (event, setter) => {
+	setter(event.target.checked);
+};
+
+export default function PlayByPlay( {playByPlay, trackedPlayers} ) {
+
+
+    const [scoringPlaysOnly, setScoringPlaysOnly] = useState(false);
+    const [trackedPlayersOnly, setTrackedPlayersOnly] = useState(false);
+	const [trackedTeamsOnly, setTrackedTeamsOnly] = useState(false);
+
 
 	return (
 		<Grid container item spacing={2} justifyContent="center" sx={{marginTop: '30px'}}>
@@ -19,6 +70,38 @@ export default function PlayByPlay( {playByPlay} ) {
 					Play-by-Play
 				</Typography>
 			</Grid>
+			<Grid container justifyContent="Center" item md={12}>
+				<FormControlLabel
+					control={
+						<Switch
+							checked={scoringPlaysOnly}
+							onChange={(event) => handleChange(event, setScoringPlaysOnly)}
+						/> 
+					}
+					label="Scoring Plays Only"
+				/>
+				
+				<FormControlLabel
+					control={
+						<Switch
+							checked={trackedPlayersOnly}
+							onChange={(event) => handleChange(event, setTrackedPlayersOnly)}
+						/> 
+					}
+					label="Tracked Players Only"
+				/>
+				
+				<FormControlLabel
+					control={
+						<Switch
+							checked={trackedTeamsOnly}
+							onChange={(event) => handleChange(event, setTrackedTeamsOnly)}
+						/> 
+					}
+					label="Tracked Teams Only"
+				/>
+				</Grid>
+
 			<Grid container justifyContent="center" item md={12}>
 			{
 				playByPlay.length === 0 ? 
@@ -26,6 +109,7 @@ export default function PlayByPlay( {playByPlay} ) {
 						No plays yet...
 					</Typography>
 					:
+
 					<TableContainer sx={{maxWidth: 950, maxHeight:600}} component={Paper}>
 						<Table >
 							<TableHead>
@@ -39,14 +123,19 @@ export default function PlayByPlay( {playByPlay} ) {
 							
 							<TableBody>
 								{playByPlay.slice(playByPlay.length - 100).reverse().map(play => {
-									return(
-									<TableRow key={play.event + play.description + play.period + play.clock}>
-										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.period}</TableCell>
-										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.clock}</TableCell>
-										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.team}</TableCell>
-										<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.description}</TableCell>
-									</TableRow>
-									)
+									if (isValidPlay(play)) {
+										return (
+											<TableRow key={play.event + play.description + play.period + play.clock}>
+												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.period}</TableCell>
+												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.clock}</TableCell>
+												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.team}</TableCell>
+												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.description}</TableCell>
+											</TableRow>
+										);
+									}
+									else {
+										return '';
+									}
 								})}
 								
 							</TableBody>

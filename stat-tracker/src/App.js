@@ -5,6 +5,11 @@ import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PlayByPlay from "./modules/PlayByPlay";
 import { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import PropTypes from 'prop-types';
+import { Typography } from "@mui/material";
+import Tabs from '@mui/material/Tabs';
 
 function createNbaDateString() {
     let today = new Date();
@@ -129,7 +134,6 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
                 playsSeen[gameKey] = data.sports_content.game.play.length;
             })        
     }
-    console.log(playByPlay);
     setPlaysSeen(playsSeen);
     setPlayByPlay(playByPlay);
     setPlayByPlayDict(playByPlayDict);
@@ -139,13 +143,42 @@ function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
 function App() {
     const [games, setGames] = useState([]);
     const [playerDict, setPlayerDict] = useState({});
+    const [trackedPlayers, setTrackedPlayers] = useState([]);
 
     const [playByPlay, setPlayByPlay] = useState([]);
     const [playsSeen, setPlaysSeen] = useState({});
     const [playByPlayDict, setPlayByPlayDict] = useState([]);
+    
+    const [tabId, setTabId] = useState('1');
 
 
     // Get Today's Games
@@ -169,6 +202,11 @@ function App() {
     },
     }); 
 
+
+    const handleTabChange = (event, newValue) => {
+        setTabId(newValue);
+    };    
+
     return (
         <>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -176,19 +214,36 @@ function App() {
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600&display=swap" rel="stylesheet"></link>
         
         <ThemeProvider theme={theme}>
-            <Grid container spacing={2} sx={{marginTop: '25px'}}>
-                <Grid sx={{paddingBottom: '50px'}} item md={3}>
-                    <Games games={games}/>
-                </Grid>
-                <Grid item md={9}>
-                    <Grid item md={12}>
-                        <PlayerTracker games={games} playerDict={playerDict}/>
+            <Box sx={{height: '100%', width: '100%', overflow: 'auto'}}>
+                <Grid container spacing={2} sx={{marginTop: '25px'}}>
+                    <Grid sx={{paddingBottom: '50px'}} item md={3}>
+                        <Games games={games}/>
                     </Grid>
-                    <Grid item md={12}>
-                        <PlayByPlay playByPlay={playByPlay}/>
+                    <Grid item md={9}>
+                        <Tabs
+                            value={tabId}
+                            onChange={handleTabChange}
+                            indicatorColor="secondary"
+                            textColor="inherit"
+                        >
+                            <Tab label="Live Stats and Play-by-Play" />
+                            <Tab label="Research Player Stats" />
+                        </Tabs>
+
+                        <TabPanel value={tabId} index={0} dir={theme.direction}>
+                            <Grid item md={12}>
+                                <PlayerTracker games={games} playerDict={playerDict} trackedPlayers={trackedPlayers} setTrackedPlayers={setTrackedPlayers}/>
+                            </Grid>
+                            <Grid item md={12}>
+                                <PlayByPlay playByPlay={playByPlay} trackedPlayers={trackedPlayers}/>
+                            </Grid>
+                        </TabPanel>
+                        <TabPanel value={tabId} index={1} dir={theme.direction}>
+                        </TabPanel>
+        
                     </Grid>
                 </Grid>
-            </Grid>
+            </Box>
         </ThemeProvider>
         </>
     );

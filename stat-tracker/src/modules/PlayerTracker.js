@@ -2,7 +2,6 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
-import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,11 +15,7 @@ function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
 
-export default function PlayerTracker( {games, playerDict} ) {
-
-
-    const [trackedPlayers, setTrackedPlayers] = useState([]);
-
+export default function PlayerTracker( {games, playerDict, trackedPlayers, setTrackedPlayers} ) {
 
 
 	if (isEmptyObject(playerDict)) {
