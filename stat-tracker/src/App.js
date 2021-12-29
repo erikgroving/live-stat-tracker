@@ -66,6 +66,10 @@ async function fetchPlayerStats(games, setPlayerDict) {
                     return;
                 }
                 let players = parsed.stats.activePlayers;
+                for (let i = 0; i < players.length; i++) {
+                    players[i].hteam = g.hTeam.triCode;
+                    players[i].vteam = g.vTeam.triCode;
+                }
                 playerStats.push(players);
 
             })

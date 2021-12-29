@@ -36,7 +36,15 @@ const isTrackedPlayer = (playDesc, trackedPlayers) => {
 };
 
 const isTrackedPlayerTeam = (play, trackedPlayers, playerDict) => {
-	return true;
+	
+	for (let p of trackedPlayers) {
+		let player = playerDict[p];
+		if (play.team.includes(player.vteam) || 
+			play.team.includes(player.hteam)) {
+				return true;
+		}
+	}
+	return false;	
 };
 
 function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers, playerDict) {
@@ -107,7 +115,7 @@ export default function PlayByPlay( {playByPlay, trackedPlayers, playerDict} ) {
 							onChange={(event) => handleChange(event, setTrackedTeamsOnly)}
 						/> 
 					}
-					label="Tracked Teams Only"
+					label="Games With Tracked Player Only"
 				/>
 				</Grid>
 
