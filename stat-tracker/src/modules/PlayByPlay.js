@@ -18,9 +18,14 @@ const isScoringPlay = (playDesc) => {
 	return playDesc.includes('PTS');
 };
 
-const isTrackedPlayer = (playDesc) => {
+const isTrackedPlayer = (playDesc, trackedPlayers) => {
+	if (!trackedPlayers) {
+		return;
+	}
 	let lastNames = [];
-
+	for (let player of trackedPlayers) {
+		lastNames.push(player.split(' ', 2)[1]);
+	}
 	for (let lastName of lastNames) {
 		if (playDesc.includes(lastName)) {
 			return true;
@@ -34,13 +39,12 @@ const isTrackedPlayerTeam = (play) => {
 	return true;
 };
 
-function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly) {
-
+function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers) {
 	if (scoringPlaysOnly && !isScoringPlay(play.description)) {
 		return false;
 	}
 
-	if (trackedPlayersOnly && !isTrackedPlayer(play.description)) {
+	if (trackedPlayersOnly && !isTrackedPlayer(play.description, trackedPlayers)) {
 		return false;
 	}
 
@@ -62,7 +66,13 @@ export default function PlayByPlay( {playByPlay, trackedPlayers} ) {
     const [trackedPlayersOnly, setTrackedPlayersOnly] = useState(false);
 	const [trackedTeamsOnly, setTrackedTeamsOnly] = useState(false);
 
-
+	let plays = [];
+	for (let play of playByPlay) {
+		if (isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers)) {
+			plays.push(play);
+		}
+	}
+	console.log(trackedPlayers);
 	return (
 		<Grid container item spacing={2} justifyContent="center" sx={{marginTop: '30px'}}>
 			<Grid container justifyContent="center" item md={12}>
@@ -122,20 +132,15 @@ export default function PlayByPlay( {playByPlay, trackedPlayers} ) {
 							</TableHead>
 							
 							<TableBody>
-								{playByPlay.slice(playByPlay.length - 100).reverse().map(play => {
-									if (isValidPlay(play)) {
-										return (
-											<TableRow key={play.event + play.description + play.period + play.clock}>
-												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.period}</TableCell>
-												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.clock}</TableCell>
-												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.team}</TableCell>
-												<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.description}</TableCell>
-											</TableRow>
-										);
-									}
-									else {
-										return '';
-									}
+								{plays.slice(plays.length - Math.min(plays.length, 100)).reverse().map(play => {
+									return (
+										<TableRow key={play.event + play.description + play.period + play.clock}>
+											<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.period}</TableCell>
+											<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.clock}</TableCell>
+											<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.team}</TableCell>
+											<TableCell className="fade-in" sx={{fontWeight: 'bold'}}>{play.description}</TableCell>
+										</TableRow>
+									);
 								})}
 								
 							</TableBody>

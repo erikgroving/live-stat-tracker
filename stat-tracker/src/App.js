@@ -1,5 +1,6 @@
 import Games from "./modules/Games";
 import PlayerTracker from "./modules/PlayerTracker";
+import PlayerStats from "./modules/PlayerStats";
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -103,6 +104,9 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
                 throw new Error('Network response was not ok.')
             })
             .then(data => {
+                if (!data.sports_content.game.play.length) {
+                    return;
+                }
                 let gameKey = g.gameId;
                 if (!playsSeen.hasOwnProperty(gameKey)) {
                     playsSeen[gameKey] = 0;
@@ -178,7 +182,7 @@ function App() {
     const [playsSeen, setPlaysSeen] = useState({});
     const [playByPlayDict, setPlayByPlayDict] = useState([]);
     
-    const [tabId, setTabId] = useState('1');
+    const [tabId, setTabId] = useState(0);
 
 
     // Get Today's Games
@@ -239,6 +243,7 @@ function App() {
                             </Grid>
                         </TabPanel>
                         <TabPanel value={tabId} index={1} dir={theme.direction}>
+                            <PlayerStats/>
                         </TabPanel>
         
                     </Grid>
