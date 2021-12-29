@@ -35,11 +35,11 @@ const isTrackedPlayer = (playDesc, trackedPlayers) => {
 	return false;
 };
 
-const isTrackedPlayerTeam = (play) => {
+const isTrackedPlayerTeam = (play, trackedPlayers, playerDict) => {
 	return true;
 };
 
-function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers) {
+function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers, playerDict) {
 	if (scoringPlaysOnly && !isScoringPlay(play.description)) {
 		return false;
 	}
@@ -48,7 +48,7 @@ function isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnl
 		return false;
 	}
 
-	if (trackedTeamsOnly && !isTrackedPlayerTeam(play)) {
+	if (trackedTeamsOnly && !isTrackedPlayerTeam(play, trackedPlayers, playerDict)) {
 		return false;
 	}
 
@@ -59,7 +59,7 @@ const handleChange = (event, setter) => {
 	setter(event.target.checked);
 };
 
-export default function PlayByPlay( {playByPlay, trackedPlayers} ) {
+export default function PlayByPlay( {playByPlay, trackedPlayers, playerDict} ) {
 
 
     const [scoringPlaysOnly, setScoringPlaysOnly] = useState(false);
@@ -68,11 +68,10 @@ export default function PlayByPlay( {playByPlay, trackedPlayers} ) {
 
 	let plays = [];
 	for (let play of playByPlay) {
-		if (isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers)) {
+		if (isValidPlay(play, scoringPlaysOnly, trackedPlayersOnly, trackedTeamsOnly, trackedPlayers, playerDict)) {
 			plays.push(play);
 		}
 	}
-	console.log(trackedPlayers);
 	return (
 		<Grid container item spacing={2} justifyContent="center" sx={{marginTop: '30px'}}>
 			<Grid container justifyContent="center" item md={12}>

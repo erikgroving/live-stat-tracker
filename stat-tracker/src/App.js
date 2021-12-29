@@ -239,7 +239,7 @@ function App() {
                                 <PlayerTracker games={games} playerDict={playerDict} trackedPlayers={trackedPlayers} setTrackedPlayers={setTrackedPlayers}/>
                             </Grid>
                             <Grid item md={12}>
-                                <PlayByPlay playByPlay={playByPlay} trackedPlayers={trackedPlayers}/>
+                                <PlayByPlay playByPlay={playByPlay} playerDict={playerDict} trackedPlayers={trackedPlayers}/>
                             </Grid>
                         </TabPanel>
                         <TabPanel value={tabId} index={1} dir={theme.direction}>
