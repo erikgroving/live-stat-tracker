@@ -17,13 +17,7 @@ function createNbaDateString() {
 	let year = today.getFullYear();
 	let month = today.getMonth() + 1;
 	let day = today.getDate();
-    if (month.length === 1) {
-        month = '0' + month;
-    }
-    if (day.length === 1) {
-        day = '0' + month;
-    }
-	let date = year.toFixed() + month.toFixed() + day.toFixed();
+	let date = year.toFixed() + ('0' + month.toFixed()).slice(-2) + ('0' + day.toFixed()).slice(-2);
 
     return date;
 }
