@@ -17,6 +17,12 @@ function createNbaDateString() {
 	let year = today.getFullYear();
 	let month = today.getMonth() + 1;
 	let day = today.getDate();
+    if (month.length === 1) {
+        month = '0' + month;
+    }
+    if (day.length === 1) {
+        day = '0' + month;
+    }
 	let date = year.toFixed() + month.toFixed() + day.toFixed();
 
     return date;
@@ -131,8 +137,8 @@ async function fetchPlayByPlay(games, playByPlay, setPlayByPlay, playByPlayDict,
                             play.description = splits[1]; 
                         }
                         else {
-                            playByPlayDict[key] = play;
-                            continue;
+                            play.team = '';
+                            play.description = splits[0];
                         }
                         
                         playByPlay.push(play);
